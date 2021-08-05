@@ -1,23 +1,66 @@
 import tkinter as tk
 
-win = tk.Tk()
-win.title('계산기')
+disValue = 0
+operator = {'+':1,'-':2,'/':3,'*':4,'C':5,'=':6}
+stoValue = 0
+opPre = 0
 
+#숫자가 들어왔을 때
 def number_click(value):
-    print(value)
+    global disValue
+    disValue = (disValue*10)+value
+    str_value.set(disValue)
+
+#클리어
+def clear():
+    global disValue,stoValue,opPre
+    stoValue = 0
+    opPre = 0
+    disValue = 0
+    str_value.set(disValue)
+
+#문자가 들어왔을 때(명령문)
 def operator_click(value):
-    print(value)
+    global disValue,operator,stoValue,opPre
+    op = operator[value]
+    if op == 5:
+        clear()
+    elif disValue == 0:
+        opPre = 0
+    elif opPre == 0:
+        opPre = op
+        stoValue = disValue
+        disValue = 0
+        str_value.set(disValue)
+    elif op == 6:
+        if opPre == 1:
+            disValue = stoValue + disValue
+        if opPre == 2:
+            disValue = stoValue - disValue
+        if opPre == 3:
+            disValue = stoValue / disValue
+        if opPre == 4:
+            disValue = stoValue * disValue
+        
+        str_value.set(disValue)
+        disValue = 0
+        stoValue = 0
+        opPre = 0
+    else:
+        clear()
+
 #버튼 클릭
 def button_click(value):
-    print(value)
+    #print(value)
     try:
         value = int(value)
         number_click(value)
     except:
         operator_click(value)
 
+win = tk.Tk()
+win.title('계산기')
 
-disValue = 0
 str_value = tk.StringVar()
 str_value.set(str(disValue))
 dis = tk.Entry(win, textvariable=str_value, justify='right', bg = 'white',fg = 'red')
