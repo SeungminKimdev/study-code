@@ -1,3 +1,6 @@
+import urllib.request
+import re
+import unicodedata
 import tkinter as tk
 
 disValue = 0
@@ -14,6 +17,7 @@ def clear():
     disValue = 0
     musicName = '노래 제목'
     str_value.set(disValue)
+    mus_value.set(musicName)
 
 #버튼 클릭
 def button_click(value):
@@ -24,14 +28,41 @@ def button_click(value):
     except:
         operator_click(value)
 
+#노래 찾기
+def search_music():
+    global musicName
+    url = "http://www.melon.com/chart/index.htm"
+    user_agent = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
+    request = urllib.request.Request(url, None, {'User-Agent':user_agent})
+    data = urllib.request.urlopen(request).read().decode('utf-8')
+    str1 = ' 곡 선'
+    num = 1
+    serchName = ''
+    for iterate in re.finditer('<td><div class="wrap t_right"><input type="checkbox" title="',data):
+        a = iterate.end()
+        b = ''
+        i = 0
+        while data[a+i] != '택':
+            b = b+data[a+i]
+            i += 1
+        if num == disValue:
+            serchName = b.replace(' 곡 선','')
+            break
+        num += 1
+    musicName = serchName
+    mus_value.set(musicName)
+
 #문자가 들어왔을 때(명령문)
 def operator_click(value):
     global disValue,operator, musicName
     op = operator[value]
     if op == 1:
         clear()
+    elif disValue > 100:
+        mus_value.set('Error: 100 초과!!')
+        disValue = 0
     elif op == 2:
-        #여기에 원하는 프로그램 입력
+        search_music()
         str_value.set(str(disValue))
         disValue = 0
     else:
