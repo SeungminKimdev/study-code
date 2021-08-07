@@ -5,7 +5,7 @@ import tkinter as tk
 
 disValue = 0
 operator = {'C':1,'=':2}
-musicName = '노래 제목'
+musicName = '이곳에 표시됩니다'
 
 def number_click(value):
     global disValue
@@ -15,7 +15,7 @@ def number_click(value):
 def clear():
     global disValue, musicName
     disValue = 0
-    musicName = '노래 제목'
+    musicName = '이곳에 표시됩니다'
     str_value.set(disValue)
     mus_value.set(musicName)
 
@@ -72,18 +72,29 @@ win = tk.Tk()
 win.title('Music Search')
 win.resizable(False, False) #창 크기 조절 불가 (상하, 좌우)
 
+#순위 이름 택, 노래 제목 이름 설명 칸 추가
+str_name = tk.StringVar()
+str_name.set('순위(1~100)')
+disN = tk.Entry(win, width = 10, textvariable=str_name, justify='center',bg='gray',fg='white')
+disN.grid(column = 0, row = 0, columnspan = 1, ipadx = 3,ipady = 5)
+
+str_music = tk.StringVar()
+str_music.set('노래 제목')
+disMu = tk.Entry(win, width = 30, textvariable=str_music, justify='center',bg='gray',fg='white')
+disMu.grid(column = 1, row = 0, columnspan = 3,ipadx = 13, ipady = 5)
+
 #순위 숫자 표시
 str_value = tk.StringVar()
 str_value.set(str(disValue))
 dis = tk.Entry(win, width = 10, textvariable=str_value, justify='center', bg = 'white',fg = 'red')
 #justify=글자 위치, columnspan = 몇개를 차지 할 것이냐
-dis.grid(column = 0, row = 0, columnspan = 1, ipadx=0, ipady=15)
+dis.grid(column = 0, row = 1, columnspan = 1, ipadx=3, ipady=15)
 
 #노래 제목 표시
 mus_value = tk.StringVar()
 mus_value.set(musicName)
 disM = tk.Entry(win, width = 30, textvariable=mus_value, justify='center', bg = 'white', fg = 'blue')
-disM.grid(column = 1, row = 0, columnspan = 3, ipadx=0, ipady=15)
+disM.grid(column = 1, row = 1, columnspan = 3, ipadx=13, ipady=15)
 
 calItem = [['1','2','3','4'],
             ['5','6','7','8'],
@@ -106,6 +117,6 @@ for i,items in enumerate(calItem):
         fg = 'black',
         command = lambda cmd = item: button_click(cmd)
         )
-        bt.grid(column = k, row = i+1)
+        bt.grid(column = k, row = i+2)
 
 win.mainloop() #윈도우 종료될때까지 실행
