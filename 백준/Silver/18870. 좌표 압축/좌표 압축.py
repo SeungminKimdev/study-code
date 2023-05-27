@@ -2,18 +2,12 @@ import sys
 input = sys.stdin.readline
 
 def main():
-    n = int(input())
-    numList = dict()
+    _ = int(input())
     inputNum = list(map(int,input().split()))
-    
     setNum = sorted(set(inputNum))
-    for i in range(len(setNum)):
-        numList[setNum[i]] = i
-    ans = ""
-    for i in inputNum:
-        ans += str(numList[i])
-        ans += " "
-    print(ans.rstrip())
+    numList = {setNum[i]:i for i in range(len(setNum))}
+    
+    print(" ".join(str(numList[i]) for i in inputNum))
 
 if __name__ == "__main__":
     main()
