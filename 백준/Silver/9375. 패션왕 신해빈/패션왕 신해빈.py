@@ -9,12 +9,12 @@ def main():
         for _ in range(m):
             close, tag = input().split()
             if tag in wear:
-                wear[tag].append(close)
+                wear[tag] += 1
             else:
-                wear[tag] = [close]
+                wear[tag] = 1
         answer = 1
         for i in wear.keys():
-            answer *= (len(wear[i]) + 1)
+            answer *= (wear[i] + 1)
         print(answer - 1)
     return
 
