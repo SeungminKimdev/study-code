@@ -7,4 +7,4 @@ for i in range(C):
     for j in numList:
         if j > avg:
             ans += 1
-    print('{:.3f}%'.format((ans * 100) / float(N)))
+    print('{:.4f}%'.format((ans * 100) / float(N)))
