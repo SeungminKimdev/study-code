@@ -23,12 +23,12 @@ eat = 0
 day = 0
 while True:
     space = copy.deepcopy(mainSpace)
-    time = [[0]*n for _ in range(n)]
     q = []
     q.append(shark)
     search = False
     length = 1
     use = 0
+    tempD = 0
     searchq = []
     while q:
         nowX, nowY = q.pop(0)
@@ -42,7 +42,6 @@ while True:
                 if space[nextX][nextY] == 0 or space[nextX][nextY] == size:
                     q.append((nextX,nextY))
                     space[nextX][nextY] = -1
-                    time[nextX][nextY] = 1+time[nowX][nowY]
                 elif 0 < space[nextX][nextY] < size and visited[nextX][nextY] != True:
                     searchq.append((nextX,nextY))
                     search = True
@@ -56,9 +55,10 @@ while True:
                 if eat == size:
                     eat = 0
                     size += 1
-                day += 1 + time[nowX][nowY]
+                day += 1 + tempD
                 shark = (nextX,nextY)
                 break
+            tempD += 1
             use = 0
             length = len(q)
             q.sort()
