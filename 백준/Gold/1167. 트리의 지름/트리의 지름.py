@@ -1,4 +1,5 @@
 import sys
+sys.setrecursionlimit(10000000)
 input = sys.stdin.readline
 
 class Tree():
