@@ -16,7 +16,7 @@ def main():
         else:
             break
     
-    if (n == p and inputScore <= scores[-1]) or rank > p:
+    if (n == p and inputScore <= scores[-1]):
         print(-1)
     else:
         print(rank)
