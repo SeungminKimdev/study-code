@@ -4,33 +4,23 @@ input = sys.stdin.readline
 def main():
     n = int(input())
     arr = [list(input().split()) for _ in range(n)]
-    answer = 0
-    q = [(0, 0, 0, 1, 0)] # x1, y1, x2, y2, 파이프 모양
     
-    while q:
-        x1, y1, x2, y2, shape = q.pop()
-        if x2 == n-1 and y2 == n-1 and arr[x2][y2] == '0':
-            answer += 1
-            continue
-        if shape == 0 and y2 + 1 < n: # 가로
-            if arr[x2][y2+1] == '0':
-                q.append((x2, y2, x2, y2+1, 0))
-                if x2 + 1 < n and arr[x2+1][y2] == '0' and arr[x2+1][y2+1] == '0':
-                    q.append((x2, y2, x2+1, y2+1, 2))
-        elif shape == 1 and x2 + 1 < n: # 세로
-            if arr[x2+1][y2] == '0':
-                q.append((x2, y2, x2+1, y2, 1))
-                if y2 + 1 < n and arr[x2][y2+1] == '0' and arr[x2+1][y2+1] == '0':
-                    q.append((x2, y2, x2+1, y2+1, 2))
-        elif shape == 2: # 대각선
-            if y2 + 1 < n and arr[x2][y2+1] == '0':
-                q.append((x2, y2, x2, y2+1, 0))
-            if x2 + 1 < n and arr[x2+1][y2] == '0':
-                q.append((x2, y2, x2+1, y2, 1))
-            if x2 + 1 < n and y2 + 1 < n and arr[x2][y2+1] == '0' and arr[x2+1][y2] == '0' and arr[x2+1][y2+1] == '0':
-                q.append((x2, y2, x2+1, y2+1, 2))
+    dp = [[[0] * 3 for _ in range(n)] for _ in range(n)] # x, y, 모양(가로,세로,대각선)
+    dp[0][1][0] = 1
+
+    for x in range(n):
+        for y in range(1, n):
+            if arr[x][y] == '1':
+                continue
+            
+            if y - 1 >= 0: # 가로
+                dp[x][y][0] += dp[x][y-1][0] + dp[x][y-1][2]
+            if x - 1 >= 0: # 세로
+                dp[x][y][1] += dp[x-1][y][1] + dp[x-1][y][2]
+            if x - 1 >= 0 and y - 1 >= 0 and arr[x-1][y] == '0' and arr[x][y-1] == '0': # 대각선
+                dp[x][y][2] += dp[x-1][y-1][0] + dp[x-1][y-1][1] + dp[x-1][y-1][2]
     
-    print(answer)
+    print(sum(dp[n-1][n-1]))
 
 if __name__ == "__main__":
 	main()
