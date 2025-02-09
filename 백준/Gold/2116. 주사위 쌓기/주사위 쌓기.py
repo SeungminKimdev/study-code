@@ -3,7 +3,7 @@ input = sys.stdin.readline
 
 def main():
     n = int(input())
-    dices = [0] * 6 #
+    dices = [0] * 6
     a, b, c, d, e, f = map(int, input().split())
     dices[a-1] = max([b,c,d,e])
     dices[b-1] = max([a,c,e,f])
