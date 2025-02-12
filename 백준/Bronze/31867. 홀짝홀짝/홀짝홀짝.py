@@ -4,9 +4,11 @@ input = sys.stdin.readline
 def main():
     n = int(input())
     number = input().rstrip()
+    evens = ['0', '2', '4', '6', '8'] # 짝수
+    
     even = odd = 0
     for i in range(n):
-        if int(number[i]) % 2 == 0:
+        if number[i] in evens:
             even += 1
         else:
             odd += 1
